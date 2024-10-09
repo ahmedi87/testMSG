@@ -19,13 +19,18 @@ func main() {
 
 func logMSG(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("My request to API LOG")
-	req, _, err := ParseRequest(r)
-	if err != nil {
-		fmt.Fprint(w, "error")
-		return
+	if r.Method == http.MethodGet {
+		req := queryParams(r)
+		fmt.Println("My req", req)
+	} else {
+		req, _, err := ParseRequest(r)
+		if err != nil {
+			fmt.Fprint(w, "error")
+			return
+		}
+		fmt.Println("My request:", createKeyValuePairs(req))
+		// go writeLog(createKeyValuePairs(req), "logs")
 	}
-	fmt.Println("My request:", createKeyValuePairs(req))
-	// go writeLog(createKeyValuePairs(req), "logs")
 	fmt.Fprint(w, "success")
 }
 
