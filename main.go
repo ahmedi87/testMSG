@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/LogWhatsappMSG", logMSG)
+	http.HandleFunc("/webhook", logMSG)
 	fmt.Println("Listening On: 9099")
 	http.ListenAndServe(":9099", nil)
 
