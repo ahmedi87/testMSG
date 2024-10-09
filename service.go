@@ -35,7 +35,7 @@ func HandlePostRequest(r *http.Request, w http.ResponseWriter) {
 	data, _ := json.Marshal(req)
 	json.Unmarshal(data, &notifyReq)
 	fmt.Println("My notification", notifyReq)
-	obj := notifyReq.Entry.Changes[0].Value.Messages[0]
+	obj := notifyReq.Entry[0].Changes[0].Value.Messages[0]
 	message := map[string]interface{}{"sender": obj.From,
 		"message_id": obj.ID, "text": obj.Text.Body}
 	writeLog(createKeyValuePairs(message), "messages")
