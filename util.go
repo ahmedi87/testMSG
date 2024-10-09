@@ -22,6 +22,7 @@ func queryParams(r *http.Request) (res map[string]interface{}) {
 }
 
 func createKeyValuePairs(m map[string]interface{}) string {
+	fmt.Println("MY createPairs", m)
 	b := new(bytes.Buffer)
 	for key, value := range m {
 		fmt.Fprintf(b, "%s:\"%s\", ", key, value)
