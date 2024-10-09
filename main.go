@@ -24,6 +24,7 @@ func logMSG(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("My req", req)
 		challenge := req["hub.challenge"]
 		mod := req["hub.mod"]
+		fmt.Println("My mod", mod, "my challenge", challenge)
 		if mod == "subscribe" {
 			w.WriteHeader(http.StatusOK)
 			w.Write([]byte(challenge))
