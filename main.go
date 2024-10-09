@@ -22,6 +22,15 @@ func logMSG(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		req := queryParams(r)
 		fmt.Println("My req", req)
+		challenge := req["hub.challenge"]
+		mod := req["hub.mod"]
+		if mod == "subscribe" {
+			w.WriteHeader(http.StatusOK)
+			fmt.Fprint(w, challenge)
+		} else {
+			fmt.Fprint(w, "success")
+		}
+		return
 	} else {
 		req, _, err := ParseRequest(r)
 		if err != nil {
