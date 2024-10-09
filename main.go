@@ -18,6 +18,7 @@ func main() {
 }
 
 func logMSG(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("My request to API LOG")
 	req, _, err := ParseRequest(r)
 	if err != nil {
 		fmt.Fprint(w, "error")
