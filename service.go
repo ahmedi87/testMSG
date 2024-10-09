@@ -69,7 +69,7 @@ func SendMessage(w http.ResponseWriter, r *http.Request) {
 			},
 		}
 	} else if sendReq.Mode == 2 {
-		request = ReplyRequest{
+		request = ReplyMessageRequest{
 			MessagingProduct: "whatsapp",
 			RecipientType:    "individual",
 			To:               sendReq.To,
@@ -85,8 +85,25 @@ func SendMessage(w http.ResponseWriter, r *http.Request) {
 				Body: sendReq.Text,
 			},
 		}
-	} else {
-
+	} else if sendReq.Mode == 3 {
+		request = TemplateMessageRequest{
+			MessagingProduct: "whatsapp",
+			To:               sendReq.To,
+			Type:             "template",
+			Template: struct {
+				Name     string "json:\"name\""
+				Language struct {
+					Code string "json:\"code\""
+				} "json:\"language\""
+			}{
+				Name: "call_rating",
+				Language: struct {
+					Code string "json:\"code\""
+				}{
+					Code: "ar",
+				},
+			},
+		}
 	}
 	resp := CallURLPost(msgURL, request)
 	fmt.Println("My response:", resp)

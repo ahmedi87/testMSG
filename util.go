@@ -71,7 +71,8 @@ func CallURLPost(url string, req interface{}) (response MessageResponse) {
 	client := &http.Client{Timeout: 60 * time.Second}
 	request, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonReq))
 	request.Header.Set("Content-Type", "application/json; charset=utf-8")
-	request.Header.Set("Authorization", "Bearer EAAO4Th5gYfEBOwbHZAhvLGmU8WZAExayMGQgZAUZCBiBXiAjTVMvW4EwYbCmYgc9h1MpAEPRXT6Mqc8qZBoIG1P771qTFUS4Hk3GZAVptCK7czgzjNrIpzKTs8FnZCl6xv3L2AlsyajeEppvrJ8o4MccHFg5Yyba7WVv2GpCJckFvD3Fcdg4rImxazrjMUZBa1pOG07X5vPSnZBCowPMw9YCCHvZCduIMZD")
+	//EAAO4Th5gYfEBOwbHZAhvLGmU8WZAExayMGQgZAUZCBiBXiAjTVMvW4EwYbCmYgc9h1MpAEPRXT6Mqc8qZBoIG1P771qTFUS4Hk3GZAVptCK7czgzjNrIpzKTs8FnZCl6xv3L2AlsyajeEppvrJ8o4MccHFg5Yyba7WVv2GpCJckFvD3Fcdg4rImxazrjMUZBa1pOG07X5vPSnZBCowPMw9YCCHvZCduIMZD
+	request.Header.Set("Authorization", "Bearer EAAO4Th5gYfEBO0a4Oj7ZCvi9XcClZBDh9uZAM7zYNBQPkMBU6Ae4tD3cOYMMlc27eYj0tJEQowW6dXR0Q4ZBOuE92zlfuwhPIjVvC3nmLPfE3IFk8yUZCG7egaxwJoXqG4LKYhlWrf5Dc40ivaOuGZBZAugSXyVtZA7ijh5akdZAyjcUrpZBHKAFMqnQW8uwboiqng7y4AtTZBlhZBM66K4fFl7knOHgeGUZD")
 	request.Close = true
 	resp, err := client.Do(request)
 	if err != nil {
@@ -82,6 +83,9 @@ func CallURLPost(url string, req interface{}) (response MessageResponse) {
 	}
 	defer resp.Body.Close()
 	bodyBytes, _ := io.ReadAll(resp.Body)
+	res := make(map[string]interface{})
 	json.Unmarshal(bodyBytes, &response)
+	json.Unmarshal(bodyBytes, &res)
+	fmt.Println("My call post resp", res)
 	return
 }

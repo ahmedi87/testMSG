@@ -44,6 +44,29 @@ type TextMessageRequest struct {
 	} `json:"text"`
 }
 
+type ReplyMessageRequest struct {
+	MessagingProduct string `json:"messaging_product"`
+	RecipientType    string `json:"recipient_type"`
+	To               string `json:"to"`
+	Context          struct {
+		MessageID string `json:"message_id"`
+	} `json:"context"`
+	Type string `json:"type"`
+	Text struct {
+		Body string `json:"body"`
+	} `json:"text"`
+}
+type TemplateMessageRequest struct {
+	MessagingProduct string `json:"messaging_product"`
+	To               string `json:"to"`
+	Type             string `json:"type"`
+	Template         struct {
+		Name     string `json:"name"`
+		Language struct {
+			Code string `json:"code"`
+		} `json:"language"`
+	} `json:"template"`
+}
 type MessageResponse struct {
 	MessagingProduct string `json:"messaging_product"`
 	Contacts         []struct {
@@ -55,19 +78,6 @@ type MessageResponse struct {
 		MessageStatus string `json:"message_status"`
 	} `json:"messages"`
 	Resp Response
-}
-
-type ReplyRequest struct {
-	MessagingProduct string `json:"messaging_product"`
-	RecipientType    string `json:"recipient_type"`
-	To               string `json:"to"`
-	Context          struct {
-		MessageID string `json:"message_id"`
-	} `json:"context"`
-	Type string `json:"type"`
-	Text struct {
-		Body string `json:"body"`
-	} `json:"text"`
 }
 
 type Response struct {
