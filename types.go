@@ -2,7 +2,7 @@ package main
 
 type NotificationReq struct {
 	Object string `json:"object"`
-	Entry  struct {
+	Entry  []struct {
 		Changes []Change `json:"changes"`
 	} `json:"entry"`
 }
