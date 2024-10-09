@@ -23,7 +23,7 @@ func logMSG(w http.ResponseWriter, r *http.Request) {
 		req := queryParams(r)
 		fmt.Println("My req", req)
 		challenge := req["hub.challenge"]
-		mod := req["hub.mod"]
+		mod := req["hub.mode"]
 		fmt.Println("My mod", mod, "my challenge", challenge)
 		if mod == "subscribe" {
 			w.WriteHeader(http.StatusOK)
