@@ -2,7 +2,9 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/motaz/codeutils"
@@ -16,9 +18,13 @@ func main() {
 }
 
 func logMSG(w http.ResponseWriter, r *http.Request) {
-
-	call := queryParams(r)
-	go writeLog(createKeyValuePairs(call), "calls")
+	req, _, err := ParseRequest(r)
+	if err != nil {
+		fmt.Fprint(w, "error")
+		return
+	}
+	fmt.Println("My request:", createKeyValuePairs(req))
+	// go writeLog(createKeyValuePairs(req), "logs")
 	fmt.Fprint(w, "success")
 }
 
@@ -32,7 +38,7 @@ func queryParams(r *http.Request) (res map[string]string) {
 	return
 }
 
-func createKeyValuePairs(m map[string]string) string {
+func createKeyValuePairs(m map[string]interface{}) string {
 	b := new(bytes.Buffer)
 	for key, value := range m {
 		fmt.Fprintf(b, "%s:\"%s\", ", key, value)
@@ -47,4 +53,21 @@ func writeLog(event string, name string) {
 		name = "log/Error"
 	}
 	codeutils.WriteToLog(event, name)
+}
+
+// ParseRequest ...
+func ParseRequest(r *http.Request) (request map[string]interface{}, body []byte, err error) {
+	request = make(map[string]interface{})
+	body, err = io.ReadAll(r.Body)
+
+	if err != nil {
+		codeutils.WriteToLog("Error in processRequest reading request: "+err.Error(), "")
+		return
+	}
+	err = json.Unmarshal(body, &request)
+	if err != nil {
+		codeutils.WriteToLog("Error in processRequest unmarshal: "+err.Error(), "")
+		return
+	}
+	return
 }
